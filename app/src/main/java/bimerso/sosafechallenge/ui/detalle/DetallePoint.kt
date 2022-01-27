@@ -13,7 +13,11 @@ import bimerso.sosafechallenge.base.BaseActivity
 import bimerso.sosafechallenge.base.Constants
 import bimerso.sosafechallenge.databinding.ActivityDetallePointBinding
 import bimerso.sosafechallenge.models.Lugares
+import bimerso.sosafechallenge.network.Url
 import bimerso.sosafechallenge.ui.mapa.view.FragmentMapsDirections
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -36,7 +40,8 @@ class DetallePoint : BaseActivity() {
         binding.tvnombrePoint.text ="Nombre: " +Constants.entidad!!.name
         binding.tvdireccionPoint.text = "Dirección: "+Constants.entidad!!.vicinity
         binding.tvratingPoint.text = "Calificación: "+Constants.entidad!!.rating.toString()
-
+        var urlPhoto:String = Url.PHOTO_URL+"?maxwidth="+Constants.entidad!!.photos[0].width+"&photo_reference="+ Constants.entidad!!.photos[0].photo_reference+"&key="+Url.GOOGLE_APIKEY
+        Glide.with(this@DetallePoint).load(urlPhoto).fitCenter().into(binding.imagen)
         val marker = LatLng(Constants.entidad!!.geometry.location.lat, Constants.entidad!!.geometry.location.lng)
         googleMap!!.addMarker(MarkerOptions().position(marker).title(Constants.entidad!!.name))
         val zoom = CameraUpdateFactory.zoomTo(15f)
